@@ -1,11 +1,11 @@
 import Contact from "./components/Contact";
+import Engage from "./components/Engage";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
-import Pricing from "./components/Pricing";
+import Process from "./components/Process";
 import Services from "./components/Services";
-import Steps from "./components/Steps";
-import TwoPaths from "./components/TwoPaths";
+import StickyCta from "./components/StickyCta";
 import Work from "./components/Work";
 
 export default function Home() {
@@ -14,14 +14,14 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <TwoPaths />
         <Services />
+        <Process />
         <Work />
-        <Pricing />
-        <Steps />
+        <Engage />
         <Contact />
       </main>
       <Footer />
+      <StickyCta />
     </>
   );
 }

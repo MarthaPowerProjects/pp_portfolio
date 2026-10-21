@@ -5,19 +5,26 @@ import {
   type ConsultationState,
   type ConsultationValues,
 } from "@/app/actions/consultation-state";
-import { planOptions, site, type PlanOption } from "@/app/content/site";
+import { needOptions, site, type NeedOption } from "@/app/content/site";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function isPlan(value: string): value is PlanOption {
-  return (planOptions as readonly string[]).includes(value);
+function isNeed(value: string): value is NeedOption {
+  return (needOptions as readonly string[]).includes(value);
+}
+
+function isReachable(value: string) {
+  if (value.length > 254) return false;
+  if (emailPattern.test(value)) return true;
+  const digits = value.replace(/[\s()+.-]/g, "");
+  return /^\d{7,15}$/.test(digits);
 }
 
 type ConsultationRequest = {
   name: string;
-  email: string;
+  contact: string;
   company: string;
-  plan: PlanOption;
+  need: NeedOption;
   message: string;
 };
 
@@ -32,9 +39,9 @@ export async function submitConsultation(
 ): Promise<ConsultationState> {
   const values: ConsultationValues = {
     name: String(formData.get("name") ?? "").trim(),
-    email: String(formData.get("email") ?? "").trim(),
+    contact: String(formData.get("contact") ?? "").trim(),
     company: String(formData.get("company") ?? "").trim(),
-    plan: String(formData.get("plan") ?? "").trim(),
+    need: String(formData.get("need") ?? "").trim(),
     message: String(formData.get("message") ?? "").trim(),
   };
 
@@ -44,40 +51,32 @@ export async function submitConsultation(
     errors.name = site.contact.errors.name;
   }
 
-  if (!emailPattern.test(values.email) || values.email.length > 254) {
-    errors.email = site.contact.errors.email;
+  if (!isReachable(values.contact)) {
+    errors.contact = site.contact.errors.contact;
   }
 
-  if (!values.company || values.company.length > 160) {
-    errors.company = site.contact.errors.company;
-  }
-
-  if (!isPlan(values.plan)) {
-    errors.plan = site.contact.errors.plan;
-  }
-
-  if (!values.message || values.message.length > 2000) {
-    errors.message = site.contact.errors.message;
+  if (!isNeed(values.need)) {
+    errors.need = site.contact.errors.need;
   }
 
   if (Object.keys(errors).length > 0) {
     return { status: "error", errors, values };
   }
 
-  if (!isPlan(values.plan)) {
+  if (!isNeed(values.need)) {
     return {
       status: "error",
-      errors: { plan: site.contact.errors.plan },
+      errors: { need: site.contact.errors.need },
       values,
     };
   }
 
   await deliverConsultation({
     name: values.name,
-    email: values.email,
-    company: values.company,
-    plan: values.plan,
-    message: values.message,
+    contact: values.contact,
+    company: values.company.slice(0, 160),
+    need: values.need,
+    message: values.message.slice(0, 2000),
   });
 
   return { status: "success", message: site.contact.success };

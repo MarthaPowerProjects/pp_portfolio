@@ -3,19 +3,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 
 const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center text-[15px] font-medium tracking-[-0.01em] transition-[transform,border-color,background-color,color] duration-200 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0",
+  "inline-flex cursor-pointer items-center justify-center gap-2 font-medium tracking-[-0.01em] transition-[transform,border-color,background-color,color] duration-200 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0",
   {
     variants: {
       variant: {
         primary:
-          "rounded-xl border border-cobalt bg-cobalt px-5 py-3 text-ink hover:border-paper hover:motion-safe:-translate-y-px",
+          "rounded-lg border border-volt bg-volt text-ink hover:border-volt-soft hover:bg-volt-soft hover:motion-safe:-translate-y-px",
         secondary:
-          "rounded-xl border border-paper bg-transparent px-5 py-3 text-paper hover:border-paper hover:motion-safe:-translate-y-px",
-        text: "border-b border-transparent px-0 py-1 text-paper hover:border-paper hover:motion-safe:-translate-y-px",
+          "rounded-lg border-[1.5px] border-current bg-transparent hover:motion-safe:-translate-y-px",
+        text: "border-b border-transparent px-0 py-1 hover:border-current hover:motion-safe:-translate-y-px",
+      },
+      size: {
+        md: "px-5 py-3 text-[15px]",
+        lg: "px-6 py-3.5 text-[16px]",
       },
     },
+    compoundVariants: [{ variant: "text", size: ["md", "lg"], className: "px-0 py-1" }],
     defaultVariants: {
       variant: "primary",
+      size: "md",
     },
   },
 );
@@ -27,13 +33,14 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & ButtonVariantProps;
 export function Button({
   className,
   variant,
+  size,
   type = "button",
   ...props
 }: ButtonProps) {
   return (
     <button
       type={type}
-      className={cn(buttonVariants({ variant }), className)}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     />
   );
@@ -42,9 +49,9 @@ export function Button({
 type ButtonLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> &
   ButtonVariantProps;
 
-export function ButtonLink({ className, variant, ...props }: ButtonLinkProps) {
+export function ButtonLink({ className, variant, size, ...props }: ButtonLinkProps) {
   return (
-    <a className={cn(buttonVariants({ variant }), className)} {...props} />
+    <a className={cn(buttonVariants({ variant, size }), className)} {...props} />
   );
 }
 

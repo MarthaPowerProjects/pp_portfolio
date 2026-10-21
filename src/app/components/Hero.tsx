@@ -1,79 +1,162 @@
 import { site } from "@/app/content/site";
 import cn from "@/app/utils/className";
-import { ButtonLink } from "./ui/Button";
 import Reveal from "./Reveal";
+import { ButtonLink } from "./ui/Button";
+import Container from "./ui/Container";
+import { Arrow, ServiceIcon } from "./ui/Icons";
+
+const nodes = [
+  { x: 22, y: 24, delay: "0s" },
+  { x: 80, y: 27, delay: "-1.5s" },
+  { x: 77, y: 77, delay: "-3s" },
+  { x: 24, y: 75, delay: "-4.5s" },
+] as const;
+
+function Orbit() {
+  return (
+    <div
+      aria-hidden="true"
+      className="relative mx-auto aspect-square w-full max-w-[460px] select-none"
+    >
+      <svg viewBox="0 0 100 100" className="absolute inset-0 size-full">
+        <circle cx="50" cy="50" r="27" fill="none" stroke="var(--color-edge)" strokeWidth="0.3" strokeDasharray="1 1.6" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="var(--color-edge)" strokeWidth="0.3" strokeDasharray="1 1.6" />
+        {nodes.map((node) => (
+          <line
+            key={`${node.x}-${node.y}`}
+            x1="50"
+            y1="50"
+            x2={node.x}
+            y2={node.y}
+            stroke="var(--color-volt)"
+            strokeOpacity="0.75"
+            strokeWidth="0.45"
+            strokeDasharray="2 5"
+            className="animate-flow"
+          />
+        ))}
+      </svg>
+      <div className="absolute top-1/2 left-1/2 flex size-[26%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-volt text-center font-head text-[clamp(0.8rem,2.4vw,1.15rem)] leading-[1.05] font-extrabold tracking-[-0.02em] text-ink shadow-[0_0_80px_-8px_rgba(255,194,26,0.55)]">
+        <span>
+          {site.hero.orbitCenter[0]}
+          <br />
+          {site.hero.orbitCenter[1]}
+        </span>
+      </div>
+      {site.services.items.map((item, index) => (
+        <div
+          key={item.verb}
+          className="absolute -translate-x-1/2 -translate-y-1/2"
+          style={{ left: `${nodes[index].x}%`, top: `${nodes[index].y}%` }}
+        >
+          <div
+            className="animate-float flex items-center gap-2.5 rounded-xl border border-edge bg-panel px-3 py-2 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.7)] sm:px-3.5 sm:py-2.5"
+            style={{ animationDelay: nodes[index].delay }}
+          >
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-ink text-volt">
+              <ServiceIcon name={item.icon} className="size-[18px]" />
+            </span>
+            <span className="leading-tight">
+              <span className="block font-head text-[15px] font-bold text-white">
+                {item.verb}
+              </span>
+              <span className="hidden text-[12px] text-mute sm:block">{item.hook}</span>
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function Hero() {
   return (
     <section
+      id="hero"
       aria-labelledby="top"
-      className="flex min-h-[calc(100svh-72px)] flex-col overflow-x-clip py-[clamp(5rem,10vw,8.5rem)]"
+      className="relative overflow-x-clip bg-ink text-white"
     >
-      <div className="mx-auto w-[min(1120px,calc(100%-48px))] md:w-[min(1120px,calc(100%-80px))] flex flex-1 flex-col">
-        <Reveal immediate className="flex flex-1 flex-col">
-          <div className="relative isolate">
-            <div
-              className="pointer-events-none absolute -top-14 -left-8 -z-10 h-96 w-[min(40rem,78vw)] bg-[radial-gradient(closest-side,color-mix(in_oklch,var(--color-cobalt)_32%,transparent),color-mix(in_oklch,var(--color-cobalt-deep)_12%,transparent)_56%,transparent_72%)]"
-              aria-hidden="true"
-            />
-            <p className="font-mono text-[12px] leading-[1.4] tracking-[0.18em] text-glow uppercase">
-              {site.hero.eyebrow}
-            </p>
-            <h1
-              id="top"
-              tabIndex={-1}
-              className="mt-6 scroll-mt-22 text-[clamp(3.25rem,7vw,6.75rem)] font-medium leading-[0.92] tracking-[-0.045em] text-paper"
-            >
-              {site.hero.lines.map((line) => (
-                <span key={line} className="block">
-                  {line}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(70%_80%_at_75%_30%,black,transparent)] bg-[linear-gradient(var(--color-edge)_1px,transparent_1px),linear-gradient(90deg,var(--color-edge)_1px,transparent_1px)] bg-[size:56px_56px] opacity-40"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-24 right-[-10%] h-[520px] w-[min(46rem,90vw)] bg-[radial-gradient(closest-side,rgba(255,194,26,0.16),transparent)]"
+      />
+      <Container className="relative pt-[clamp(2.5rem,6vw,4.5rem)]">
+        <Reveal immediate>
+          <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
+            <div>
+              <p className="inline-flex items-center gap-2.5 rounded-full border border-edge bg-panel/70 py-1.5 pr-4 pl-3 text-[14px] text-soft">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-full rounded-full bg-volt opacity-60 motion-safe:animate-ping" />
+                  <span className="relative inline-flex size-2 rounded-full bg-volt" />
                 </span>
-              ))}
-            </h1>
-            <p className="mt-8 max-w-[62ch] text-[17px] leading-[1.6] text-mute">
-              {site.hero.subcopy}
-            </p>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <ButtonLink href={site.hero.primary.href} className="w-full sm:w-auto">
-                {site.hero.primary.label}
-              </ButtonLink>
-              <ButtonLink
-                href={site.hero.secondary.href}
-                variant="secondary"
-                className="w-full sm:w-auto"
+                {site.hero.eyebrow}
+              </p>
+              <h1
+                id="top"
+                tabIndex={-1}
+                className="mt-7 scroll-mt-22 font-head text-[clamp(2.75rem,7vw,4.75rem)] leading-[1] font-extrabold tracking-[-0.035em]"
               >
-                {site.hero.secondary.label}
-              </ButtonLink>
+                {site.hero.headline.map((part) =>
+                  "accent" in part ? (
+                    <span key={part.text} className="text-volt">
+                      {part.text}
+                    </span>
+                  ) : (
+                    part.text
+                  ),
+                )}
+              </h1>
+              <p className="mt-6 max-w-[48ch] text-soft">{site.hero.subcopy}</p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <ButtonLink
+                  href={site.hero.primary.href}
+                  size="lg"
+                  className="group w-full sm:w-auto"
+                >
+                  {site.hero.primary.label}
+                  <Arrow className="size-4 transition-transform group-hover:motion-safe:translate-x-0.5" />
+                </ButtonLink>
+                <ButtonLink
+                  href={site.hero.secondary.href}
+                  variant="secondary"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                >
+                  {site.hero.secondary.label}
+                </ButtonLink>
+              </div>
             </div>
-            <p className="mt-6 text-[15px] text-mute">{site.hero.note}</p>
+            <Orbit />
           </div>
-          <ul className="mt-auto grid border-t border-line pt-0 md:grid-cols-3">
-            {site.hero.facts.map((fact, index) => (
+
+          <ul className="mt-[clamp(3rem,7vw,5rem)] grid grid-cols-2 border-t border-edge lg:grid-cols-4">
+            {site.hero.trust.map((item, index) => (
               <li
-                key={fact.index}
+                key={item.title}
                 className={cn(
-                  "py-8 md:px-8",
-                  index > 0 && "border-t border-line md:border-t-0 md:border-l",
-                  index === 0 && "md:pl-0",
-                  index === site.hero.facts.length - 1 && "md:pr-0",
+                  "py-6 pr-4 lg:px-6",
+                  index % 2 === 1 && "pl-4 max-lg:border-l max-lg:border-edge",
+                  index > 1 && "max-lg:border-t max-lg:border-edge",
+                  index > 0 && "lg:border-l lg:border-edge",
+                  index === 0 && "lg:pl-0",
                 )}
               >
-                <p className="flex items-baseline gap-3">
-                  <span className="font-mono text-[12px] tracking-[0.18em] text-glow">
-                    {fact.index}
-                  </span>
-                  <span className="text-[1.35rem] font-medium tracking-[-0.03em] text-paper">
-                    {fact.title}
-                  </span>
+                <p className="font-head text-[clamp(1.25rem,2.4vw,1.6rem)] leading-tight font-bold text-white">
+                  {item.title}
                 </p>
-                <p className="mt-3 max-w-[28ch] text-[17px] leading-[1.6] text-mute">
-                  {fact.body}
+                <p className="mt-1.5 max-w-[26ch] text-[14px] leading-snug text-mute">
+                  {item.body}
                 </p>
               </li>
             ))}
           </ul>
         </Reveal>
-      </div>
+      </Container>
+      <div className="h-[clamp(2rem,5vw,3.5rem)]" />
     </section>
   );
 }

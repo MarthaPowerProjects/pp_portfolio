@@ -1,32 +1,30 @@
-export type WorkTag = "Consult" | "Build";
+export type WorkTag = "Build" | "Integrate" | "Maintain";
 
 export type WorkItem = {
-  label: "Sample";
+  tag: WorkTag;
   title: string;
   outcome: string;
-  tags: readonly WorkTag[];
 };
+
+export const workTags: readonly WorkTag[] = ["Build", "Integrate", "Maintain"];
 
 export const work: readonly WorkItem[] = [
   {
-    label: "Sample",
-    title: "Operations platform for a regional logistics team",
+    tag: "Build",
+    title: "Dispatch platform for a logistics team",
     outcome:
-      "Replaced a spreadsheet workflow with a web app their dispatchers use every morning.",
-    tags: ["Consult", "Build"],
+      "Replaced a spreadsheet workflow with a web app dispatchers use every morning.",
   },
   {
-    label: "Sample",
-    title: "Membership product for a professional network",
+    tag: "Integrate",
+    title: "Mobile money payments for a retailer",
     outcome:
-      "Cut the launch plan from twelve features to four, then shipped the first version in eight weeks.",
-    tags: ["Consult", "Build"],
+      "Connected the shop's sales system to mobile money so payments reconcile on their own.",
   },
   {
-    label: "Sample",
-    title: "Cloud reset for an internal tool",
+    tag: "Maintain",
+    title: "Rescue of a fragile internal tool",
     outcome:
-      "Moved a fragile single server onto a setup the client’s own developer can run.",
-    tags: ["Consult"],
+      "Moved a single unstable server to a setup the client's own staff can run.",
   },
 ];
