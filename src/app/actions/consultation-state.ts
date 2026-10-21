@@ -1,4 +1,4 @@
-export type ConsultationField = "name" | "email" | "company" | "plan" | "message";
+export type ConsultationField = "name" | "contact" | "company" | "need" | "message";
 
 export type ConsultationValues = Record<ConsultationField, string>;
 

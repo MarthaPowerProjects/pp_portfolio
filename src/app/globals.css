@@ -1,20 +1,52 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: oklch(0.145 0.028 262);
-  --color-ink-soft: oklch(0.185 0.03 262);
-  --color-panel: oklch(0.225 0.032 262);
-  --color-line: oklch(0.34 0.03 262);
-  --color-paper: oklch(0.97 0.008 250);
-  --color-mute: oklch(0.74 0.02 255);
-  --color-cobalt: oklch(0.63 0.17 258);
-  --color-cobalt-deep: oklch(0.38 0.13 262);
-  --color-glow: oklch(0.84 0.09 230);
-  --color-gold: oklch(0.84 0.11 88);
+  --color-paper: #eef1f5;
+  --color-ink: #0f1b2d;
+  --color-ink-deep: #0a1220;
+  --color-panel: #16273f;
+  --color-edge: #2a3e5c;
+  --color-steel: #4e5f75;
+  --color-line: #cbd3de;
+  --color-mute: #9fb0c6;
+  --color-soft: #c3cedc;
+  --color-volt: #ffc21a;
+  --color-volt-soft: #ffd24d;
   --radius-card: 20px;
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-plex), Arial, sans-serif;
+  --font-head: var(--font-bricolage), "Arial Narrow", Arial, sans-serif;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-flow {
+  animation: flow 2.4s linear infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-flow,
+  .animate-float {
+    animation: none;
+  }
 }

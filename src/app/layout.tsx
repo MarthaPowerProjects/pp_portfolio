@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, IBM_Plex_Sans } from "next/font/google";
 import { site } from "./content/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plex = IBM_Plex_Sans({
+  variable: "--font-plex",
   subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -32,12 +33,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth bg-ink scheme-dark motion-reduce:scroll-auto [&_:focus]:outline-none [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-[3px] [&_:focus-visible]:outline-glow [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-[3px] [&::-webkit-scrollbar-thumb]:border-ink [&::-webkit-scrollbar-thumb]:bg-line`}
+      className={`${bricolage.variable} ${plex.variable} scroll-smooth bg-ink motion-reduce:scroll-auto [&_:focus]:outline-none [&_:focus-visible]:outline-3 [&_:focus-visible]:outline-offset-[3px] [&_:focus-visible]:outline-volt [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-[3px] [&::-webkit-scrollbar-thumb]:border-ink [&::-webkit-scrollbar-thumb]:bg-edge`}
     >
-      <body className="min-h-screen bg-ink font-sans text-[17px] leading-[1.6] text-paper antialiased selection:bg-cobalt selection:text-ink">
+      <body className="min-h-screen bg-paper font-sans text-[17px] leading-[1.6] text-ink antialiased selection:bg-volt selection:text-ink">
         <a
           href="#top"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[80] focus:rounded-xl focus:bg-paper focus:px-4 focus:py-2 focus:text-ink"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[80] focus:rounded-lg focus:bg-volt focus:px-4 focus:py-2 focus:text-ink"
         >
           {site.skip}
         </a>

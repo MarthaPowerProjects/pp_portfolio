@@ -12,6 +12,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { ButtonLink } from "./ui/Button";
+import Container from "./ui/Container";
 
 function scrollToHref(href: string) {
   const id = href.slice(1);
@@ -42,6 +43,18 @@ function scrolledSnapshot() {
 
 function scrolledServerSnapshot() {
   return false;
+}
+
+function Logo({ onClick }: { onClick?: (event: MouseEvent<HTMLAnchorElement>) => void }) {
+  return (
+    <a
+      href="#top"
+      onClick={onClick}
+      className="font-head text-[20px] font-extrabold tracking-[-0.02em] text-white"
+    >
+      Power<b className="text-volt">Projects</b>
+    </a>
+  );
 }
 
 export default function Navbar() {
@@ -124,82 +137,72 @@ export default function Navbar() {
   };
 
   const menu = open
-      ? createPortal(
-          <div
-            ref={menuRef}
-            id={menuId}
-            role="dialog"
-            aria-modal="true"
-            aria-label={site.menuOpen}
-            className="fixed inset-0 z-[70] flex flex-col bg-ink"
-          >
-            <div className="mx-auto w-[min(1120px,calc(100%-48px))] md:w-[min(1120px,calc(100%-80px))] flex h-[72px] items-center justify-between">
-              <a
-                href="#top"
-                onClick={closeAndGo("#top")}
-                className="inline-flex items-center gap-2 text-[16px] font-medium tracking-[-0.03em]"
-              >
-                <span aria-hidden="true" className="size-1.5 rounded-full bg-cobalt" />
-                {site.name}
-              </a>
-              <button
-                ref={closeRef}
-                type="button"
-                className="text-[15px] text-paper"
-                onClick={() => setOpen(false)}
-              >
-                {site.menuClose}
-              </button>
-            </div>
-            <nav className="mx-auto w-[min(1120px,calc(100%-48px))] md:w-[min(1120px,calc(100%-80px))] flex flex-1 flex-col justify-center gap-2" aria-label={site.menuOpen}>
+    ? createPortal(
+        <div
+          ref={menuRef}
+          id={menuId}
+          role="dialog"
+          aria-modal="true"
+          aria-label={site.menuOpen}
+          className="fixed inset-0 z-[70] flex flex-col bg-ink text-white"
+        >
+          <Container className="flex h-[72px] items-center justify-between">
+            <Logo onClick={closeAndGo("#top")} />
+            <button
+              ref={closeRef}
+              type="button"
+              className="text-[15px] text-white"
+              onClick={() => setOpen(false)}
+            >
+              {site.menuClose}
+            </button>
+          </Container>
+          <Container className="flex flex-1 flex-col justify-center gap-1">
+            <nav className="flex flex-col gap-1" aria-label={site.menuOpen}>
               {site.nav.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={closeAndGo(item.href)}
-                  className="py-3 text-[clamp(2.5rem,8vw,3.5rem)] font-medium leading-none tracking-[-0.035em]"
+                  className="py-3 font-head text-[clamp(2.25rem,8vw,3.25rem)] leading-none font-extrabold tracking-[-0.03em] transition-colors hover:text-volt"
                 >
                   {item.label}
                 </a>
               ))}
             </nav>
-            <div className="mx-auto w-[min(1120px,calc(100%-48px))] md:w-[min(1120px,calc(100%-80px))] pb-10">
-              <ButtonLink
-                href={site.bookCall.href}
-                onClick={closeAndGo(site.bookCall.href)}
-                className="w-full"
-              >
-                {site.bookCall.label}
-              </ButtonLink>
-            </div>
-          </div>,
-          document.body,
-        )
-      : null;
+          </Container>
+          <Container className="pb-10">
+            <ButtonLink
+              href={site.bookCall.href}
+              onClick={closeAndGo(site.bookCall.href)}
+              size="lg"
+              className="w-full"
+            >
+              {site.bookCall.label}
+            </ButtonLink>
+          </Container>
+        </div>,
+        document.body,
+      )
+    : null;
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 h-[72px] transition-[background-color,border-color,backdrop-filter] duration-200",
+        "sticky top-0 z-50 h-[72px] text-white transition-[background-color,border-color,backdrop-filter] duration-200",
         scrolled
-          ? "border-b border-line bg-ink/80 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent",
+          ? "border-b border-edge bg-ink/85 backdrop-blur-md"
+          : "border-b border-transparent bg-ink",
       )}
     >
-      <div className="mx-auto w-[min(1120px,calc(100%-48px))] md:w-[min(1120px,calc(100%-80px))] flex h-full items-center justify-between">
-        <a
-          href="#top"
-          className="inline-flex items-center gap-2 text-[16px] font-medium tracking-[-0.03em]"
-        >
-          <span aria-hidden="true" className="size-1.5 rounded-full bg-cobalt" />
-          {site.name}
-        </a>
+      <Container className="flex h-full items-center justify-between">
+        <Logo />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
           {site.nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-[15px] text-mute transition-colors duration-200 hover:text-paper"
+              className="text-[15px] text-soft transition-colors duration-200 hover:text-white"
             >
               {item.label}
             </a>
@@ -208,14 +211,14 @@ export default function Navbar() {
         </nav>
         <button
           type="button"
-          className="text-[15px] text-paper md:hidden"
+          className="text-[15px] text-white md:hidden"
           aria-expanded={open}
           aria-controls={menuId}
           onClick={() => setOpen(true)}
         >
           {site.menuOpen}
         </button>
-      </div>
+      </Container>
       {menu}
     </header>
   );

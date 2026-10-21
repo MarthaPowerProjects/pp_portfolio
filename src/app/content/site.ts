@@ -1,206 +1,190 @@
-export const planOptions = [
-  "Working session",
-  "Strategy sprint",
-  "Advisory retainer",
+export const needOptions = [
+  "Build new software",
+  "Integrate systems",
+  "Maintain or fix software",
+  "Technical consultancy",
   "Not sure yet",
 ] as const;
 
-export type PlanOption = (typeof planOptions)[number];
+export type NeedOption = (typeof needOptions)[number];
+
+export type ServiceIconName = "build" | "integrate" | "maintain" | "consult";
 
 export const site = {
   name: "Power Projects",
   year: "2026",
-  title: "Power Projects — IT consultation and build",
+  email: "hello@yourdomain.com",
+  title: "Power Projects | Software built, connected and kept running",
   description:
-    "Power Projects consults on the product, then builds the web, app, and cloud behind it. Book a priced consultation.",
-  footerLine: "Consultation and build for web, app, and cloud.",
+    "Power Projects builds custom software, integrates your systems, maintains what you already run, and advises on technology decisions.",
+  footerLine: "Software built, connected and kept running.",
   skip: "Skip to content",
   menuOpen: "Menu",
   menuClose: "Close",
   bookCall: {
-    label: "Book a call",
+    label: "Talk to us",
     href: "#contact",
   },
   nav: [
-    { label: "Work", href: "#work" },
     { label: "Services", href: "#services" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Contact", href: "#contact" },
+    { label: "How we work", href: "#process" },
+    { label: "Work", href: "#work" },
+    { label: "Working together", href: "#engage" },
   ],
   hero: {
-    eyebrow: "IT consultation and build",
-    lines: ["Advice that", "ships."],
-    subcopy:
-      "Power Projects consults on the product, then builds the web, app, and cloud behind it.",
-    primary: { label: "Book a consultation", href: "#contact" },
-    secondary: { label: "See how we price advice", href: "#pricing" },
-    note: "Typical first step is a 45-minute working session.",
-    facts: [
-      {
-        index: "01",
-        title: "Consult",
-        body: "Architecture, product, and a plan you can act on.",
-      },
-      {
-        index: "02",
-        title: "Build",
-        body: "Web, app, and cloud, shipped by the same team.",
-      },
-      {
-        index: "03",
-        title: "Stay",
-        body: "A retainer when you want us in the room after launch.",
-      },
+    eyebrow: "Taking on projects",
+    headline: [
+      { text: "Software built, " },
+      { text: "connected", accent: true },
+      { text: " and kept running." },
     ],
-  },
-  paths: {
-    eyebrow: "Two ways to work with us",
-    items: [
-      {
-        label: "Priced",
-        title: "Consult",
-        body: "You need a clear technical call before anyone writes code. We review the product, the stack, and the risk, then leave you with a decision.",
-        link: "View consultation pricing",
-        href: "#pricing",
-      },
-      {
-        label: "Scoped",
-        title: "Build",
-        body: "You already know what to make, or the consultation made it obvious. We design and ship the product with you.",
-        link: "Start with a consultation",
-        href: "#pricing",
-      },
+    subcopy:
+      "Power Projects is a team of software developers. We build custom systems, link the tools you already use, look after live software, and advise on technology decisions.",
+    primary: { label: "Book a free working session", href: "#contact" },
+    secondary: { label: "See what we do", href: "#services" },
+    orbitCenter: ["Your", "business"],
+    trust: [
+      { title: "45 minutes", body: "Free working session with a senior developer" },
+      { title: "In writing", body: "Prices agreed before work begins" },
+      { title: "1 business day", body: "Typical time to hear back from us" },
+      { title: "One team", body: "Same developers from first call to long after launch" },
     ],
   },
   services: {
-    eyebrow: "What we actually do",
+    title: "Four ways we help",
+    lead: "Use us for one thing or all four. The same developers handle your project from the first conversation to long after launch.",
+    cta: "Talk about this",
+    scrollHint: "Swipe or use the arrows",
+    prev: "Previous services",
+    next: "Next services",
     items: [
       {
         index: "01",
-        name: "Product consultation",
-        body: "We decide what to build, what to delay, and what the first release must prove.",
+        icon: "build",
+        verb: "Build",
+        hook: "Built",
+        name: "Custom software development",
+        body: "Web apps, mobile apps, internal tools and the APIs behind them, built around how your business actually works.",
+        points: [
+          "Business systems and dashboards",
+          "Customer portals and mobile apps",
+          "Replacing spreadsheets and manual work",
+        ],
       },
       {
         index: "02",
-        name: "Architecture",
-        body: "We choose the stack, the data model, and the path to production.",
+        icon: "integrate",
+        verb: "Integrate",
+        hook: "Connected",
+        name: "System integration",
+        body: "We make separate tools share data so your team stops retyping it.",
+        points: [
+          "Mobile money and payment gateways",
+          "Accounting, CRM and ERP connections",
+          "Third-party APIs and data migration",
+        ],
       },
       {
         index: "03",
-        name: "Product build",
-        body: "We design and ship web apps, mobile apps, and the APIs behind them.",
+        icon: "maintain",
+        verb: "Maintain",
+        hook: "Kept running",
+        name: "Maintenance and support",
+        body: "We take care of live software, including systems we did not build.",
+        points: [
+          "Bug fixes, updates and security patches",
+          "Hosting, backups and monitoring",
+          "Rescuing and modernising old systems",
+        ],
       },
       {
         index: "04",
-        name: "Cloud and launch",
-        body: "We put it on solid infrastructure, with the access, backups, and handover your team needs.",
+        icon: "consult",
+        verb: "Advise",
+        hook: "Advised",
+        name: "Technology consultancy",
+        body: "Clear, independent advice before you spend money on software.",
+        points: [
+          "What to build first and what to leave out",
+          "Choosing a stack, vendor or platform",
+          "Reviewing a stuck project or another team's work",
+        ],
+      },
+    ],
+  },
+  process: {
+    title: "How a project runs",
+    lead: "The same four steps whether it is a small fix or a full product.",
+    items: [
+      {
+        title: "Talk",
+        body: "A free working session to understand the problem, the people and the budget.",
+      },
+      {
+        title: "Plan",
+        body: "A written scope, timeline and fixed price or clear estimate.",
+      },
+      {
+        title: "Build",
+        body: "Short cycles with regular demos, so you see progress and can steer.",
+      },
+      {
+        title: "Support",
+        body: "Launch, handover, training and ongoing care when you want it.",
       },
     ],
   },
   work: {
-    eyebrow: "Selected work",
+    title: "Selected work",
+    lead: "The kinds of problems we solve.",
+    note: "Examples shown for illustration. Case studies with client results are being added.",
+    all: "All",
+    filterLabel: "Filter work by type",
+    empty: "Nothing here yet.",
   },
-  pricing: {
-    eyebrow: "Consultation pricing",
-    intro:
-      "Advice has a price. Building is quoted after we understand the work.",
-    recommended: "Recommended",
-    includes: "Includes",
-    build: "Product builds are quoted from the sprint. A typical first release starts once the scope is agreed. We do not publish a build price list, because the number depends on the product.",
-    buildCta: "Ask about a build",
-    buildHref: "#contact",
-    plans: [
-      {
-        name: "Working session",
-        price: "$0",
-        time: "45 minutes",
-        audience:
-          "You want a straight read on an idea, a vendor, or a stuck build.",
-        includes: [
-          "One working session with a senior engineer",
-          "A written note the same day: keep, change, or stop",
-          "No slide deck",
-        ],
-        cta: "Book a session",
-        href: "#contact",
-        recommended: false,
-      },
-      {
-        name: "Strategy sprint",
-        price: "$2,800",
-        time: "10 business days",
-        audience:
-          "You are about to spend real money on a build and need the plan first.",
-        includes: [
-          "Kickoff, two working sessions, and a readout",
-          "Product scope for a first release",
-          "Architecture outline and the risks that matter",
-          "A build estimate you can take to us or to another team",
-        ],
-        cta: "Start a sprint",
-        href: "#contact",
-        recommended: true,
-      },
-      {
-        name: "Advisory retainer",
-        price: "$4,500",
-        cadence: "per month",
-        time: "month to month, cancel anytime",
-        audience: "You want a senior technical partner on a live product.",
-        includes: [
-          "Two sessions a month",
-          "Review of plans, pull requests, and vendor choices",
-          "A private channel for the decisions that cannot wait",
-        ],
-        cta: "Request a retainer",
-        href: "#contact",
-        recommended: false,
-      },
-    ],
-  },
-  steps: {
-    title: "How a project starts",
+  engage: {
+    title: "Working together",
+    lead: "Start small, grow as trust grows. Prices are agreed in writing before work begins.",
+    featured: "Start here",
     items: [
       {
-        index: "01",
-        title: "Book",
-        body: "Pick a session, a sprint, or a retainer.",
+        title: "Free working session",
+        body: "45 minutes with a senior developer. You leave with a straight opinion on your idea, a vendor or a stuck project.",
+        cta: "Book a session",
+        featured: true,
       },
       {
-        index: "02",
-        title: "Decide",
-        body: "We tell you what to build and what to leave.",
+        title: "Project",
+        body: "Fixed scope and price for a build or integration, delivered in stages with demos along the way.",
+        cta: "Plan a project",
+        featured: false,
       },
       {
-        index: "03",
-        title: "Ship",
-        body: "If you want us to build it, the same people do the work.",
+        title: "Support plan",
+        body: "A monthly arrangement for maintenance, updates and advice, with a response time you can rely on.",
+        cta: "Ask about support",
+        featured: false,
       },
     ],
   },
   contact: {
-    eyebrow: "Book a consultation",
-    line: "Tell us which plan you want. We reply within one business day.",
+    title: "Tell us what you need",
+    lead: "We reply within one business day.",
     success: "Received. We will write back within one business day.",
-    submit: "Send",
-    messageLabel: "Message",
-    messagePlaceholder: "What are you trying to decide?",
-    planLabel: "Plan",
-    planPlaceholder: "Select a plan",
-    plans: planOptions,
+    submit: "Send message",
+    optional: "optional",
+    sticky: "Free 45-minute working session",
     fields: {
       name: "Name",
-      email: "Work email",
+      contact: "Email or WhatsApp number",
       company: "Company",
+      need: "What do you need?",
+      message: "Short description",
     },
     errors: {
       name: "Enter your name.",
-      email: "Enter a work email.",
-      company: "Enter your company.",
-      plan: "Choose a plan.",
-      message: "Tell us what you are trying to decide.",
+      contact: "Enter an email or a WhatsApp number we can reach.",
+      need: "Choose what you need.",
     },
   },
 } as const;
-
-export type SitePlan = (typeof site.pricing.plans)[number];

@@ -1,33 +1,33 @@
 import { site } from "@/app/content/site";
+import Container from "./ui/Container";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto w-[min(1120px,calc(100%-48px))] md:w-[min(1120px,calc(100%-80px))] flex flex-col gap-10 py-12 md:flex-row md:items-end md:justify-between md:py-16">
+    <footer className="bg-ink-deep py-10 text-[14px] text-mute">
+      <Container className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-[16px] font-medium tracking-[-0.03em] text-paper">
-            {site.name}
+          <p className="font-head text-[18px] font-extrabold tracking-[-0.02em] text-white">
+            Power<b className="text-volt">Projects</b>
           </p>
-          <p className="mt-3 max-w-[36ch] text-[15px] leading-[1.6] text-mute">
-            {site.footerLine}
-          </p>
-          <p className="mt-6 font-mono text-[12px] tracking-[0.18em] text-mute">
-            {site.year}
+          <p className="mt-1">
+            &copy; {site.year} {site.name}.
           </p>
         </div>
-        <ul className="flex flex-wrap gap-x-6 gap-y-3">
+        <ul className="flex flex-wrap gap-x-6 gap-y-2">
           {site.nav.map((item) => (
             <li key={item.href}>
-              <a
-                href={item.href}
-                className="text-[15px] text-mute transition-colors duration-200 hover:text-paper"
-              >
+              <a href={item.href} className="transition-colors hover:text-white">
                 {item.label}
               </a>
             </li>
           ))}
+          <li>
+            <a href={`mailto:${site.email}`} className="transition-colors hover:text-white">
+              {site.email}
+            </a>
+          </li>
         </ul>
-      </div>
+      </Container>
     </footer>
   );
 }

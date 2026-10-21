@@ -6,29 +6,29 @@ import {
   type ConsultationField,
   type ConsultationValues,
 } from "@/app/actions/consultation-state";
-import { site } from "@/app/content/site";
+import { needOptions, site } from "@/app/content/site";
 import cn from "@/app/utils/className";
 import { useActionState, useEffect, useState, type ReactNode } from "react";
 import { Button } from "./ui/Button";
 
 const emptyValues: ConsultationValues = {
   name: "",
-  email: "",
+  contact: "",
   company: "",
-  plan: "",
+  need: "",
   message: "",
 };
 
 const fieldOrder: ConsultationField[] = [
   "name",
-  "email",
+  "contact",
   "company",
-  "plan",
+  "need",
   "message",
 ];
 
 const controlClass =
-  "w-full rounded-xl border border-line bg-ink px-4 py-3 text-[17px] text-paper placeholder:text-mute/70 aria-invalid:border-glow";
+  "w-full rounded-lg border border-edge bg-ink px-4 py-3 text-[16px] text-white placeholder:text-mute/70 transition-colors hover:border-mute/60 aria-invalid:border-volt";
 
 export default function ContactForm() {
   const [state, formAction, pending] = useActionState(
@@ -48,7 +48,7 @@ export default function ContactForm() {
     return (
       <p
         role="status"
-        className="max-w-[22ch] text-[clamp(1.75rem,3vw,2.4rem)] font-medium leading-[1.15] tracking-[-0.035em] text-paper"
+        className="max-w-[22ch] font-head text-[clamp(1.75rem,3vw,2.4rem)] leading-[1.15] font-bold tracking-[-0.03em]"
       >
         {state.message}
       </p>
@@ -59,102 +59,96 @@ export default function ContactForm() {
     setValues((current) => ({ ...current, [field]: value }));
   };
 
+  const text = (
+    field: "name" | "contact" | "company",
+    props: { type?: string; autoComplete?: string; inputMode?: "email" },
+  ) => (
+    <input
+      id={field}
+      name={field}
+      type={props.type ?? "text"}
+      autoComplete={props.autoComplete}
+      value={values[field]}
+      onChange={(event) => setField(field, event.target.value)}
+      aria-invalid={Boolean(state.errors?.[field])}
+      aria-describedby={state.errors?.[field] ? `${field}-error` : undefined}
+      className={controlClass}
+    />
+  );
+
   return (
     <form action={formAction} noValidate aria-busy={pending} className="grid gap-6">
-      <Field
-        id="name"
-        label={site.contact.fields.name}
-        error={state.errors?.name}
-      >
-        <input
-          id="name"
-          name="name"
-          type="text"
-          autoComplete="name"
-          value={values.name}
-          onChange={(event) => setField("name", event.target.value)}
-          aria-invalid={Boolean(state.errors?.name)}
-          aria-describedby={state.errors?.name ? "name-error" : undefined}
-          className={controlClass}
-        />
+      <Field id="name" label={site.contact.fields.name} error={state.errors?.name}>
+        {text("name", { autoComplete: "name" })}
       </Field>
       <Field
-        id="email"
-        label={site.contact.fields.email}
-        error={state.errors?.email}
+        id="contact"
+        label={site.contact.fields.contact}
+        error={state.errors?.contact}
       >
-        <input
-          id="email"
-          name="email"
-          type="email"
-          inputMode="email"
-          autoComplete="email"
-          value={values.email}
-          onChange={(event) => setField("email", event.target.value)}
-          aria-invalid={Boolean(state.errors?.email)}
-          aria-describedby={state.errors?.email ? "email-error" : undefined}
-          className={controlClass}
-        />
+        {text("contact", { autoComplete: "email" })}
       </Field>
       <Field
         id="company"
         label={site.contact.fields.company}
-        error={state.errors?.company}
+        hint={site.contact.optional}
       >
-        <input
-          id="company"
-          name="company"
-          type="text"
-          autoComplete="organization"
-          value={values.company}
-          onChange={(event) => setField("company", event.target.value)}
-          aria-invalid={Boolean(state.errors?.company)}
-          aria-describedby={state.errors?.company ? "company-error" : undefined}
-          className={controlClass}
-        />
+        {text("company", { autoComplete: "organization" })}
       </Field>
-      <Field id="plan" label={site.contact.planLabel} error={state.errors?.plan}>
-        <select
-          id="plan"
-          name="plan"
-          value={values.plan}
-          onChange={(event) => setField("plan", event.target.value)}
-          aria-invalid={Boolean(state.errors?.plan)}
-          aria-describedby={state.errors?.plan ? "plan-error" : undefined}
-          className={cn(controlClass, "appearance-none bg-[length:12px_8px] bg-[position:right_1rem_center] bg-no-repeat pr-10")}
-          style={{
-            backgroundImage:
-              "linear-gradient(45deg, transparent 50%, var(--color-mute) 50%), linear-gradient(135deg, var(--color-mute) 50%, transparent 50%)",
-            backgroundPosition: "calc(100% - 18px) 55%, calc(100% - 12px) 55%",
-            backgroundSize: "6px 6px, 6px 6px",
-          }}
-        >
-          <option value="">{site.contact.planPlaceholder}</option>
-          {site.contact.plans.map((plan) => (
-            <option key={plan} value={plan}>
-              {plan}
-            </option>
+
+      <fieldset
+        aria-describedby={state.errors?.need ? "need-error" : undefined}
+        className="min-w-0"
+      >
+        <legend className="mb-2 text-[14px] text-soft">
+          {site.contact.fields.need}
+        </legend>
+        <div className="flex flex-wrap gap-2.5">
+          {needOptions.map((option, index) => (
+            <label key={option} className="cursor-pointer">
+              <input
+                id={index === 0 ? "need" : undefined}
+                type="radio"
+                name="need"
+                value={option}
+                checked={values.need === option}
+                onChange={() => setField("need", option)}
+                className="peer sr-only"
+              />
+              <span
+                className={cn(
+                  "block rounded-full border px-4 py-2 text-[15px] transition-colors",
+                  "border-edge bg-ink text-soft hover:border-mute peer-checked:border-volt peer-checked:bg-volt peer-checked:font-medium peer-checked:text-ink",
+                  "peer-focus-visible:outline-3 peer-focus-visible:outline-offset-[3px] peer-focus-visible:outline-volt",
+                )}
+              >
+                {option}
+              </span>
+            </label>
           ))}
-        </select>
-      </Field>
+        </div>
+        {state.errors?.need ? (
+          <p id="need-error" role="alert" className="mt-2 text-[14px] text-volt">
+            {state.errors.need}
+          </p>
+        ) : null}
+      </fieldset>
+
       <Field
         id="message"
-        label={site.contact.messageLabel}
-        error={state.errors?.message}
+        label={site.contact.fields.message}
+        hint={site.contact.optional}
       >
         <textarea
           id="message"
           name="message"
           rows={5}
-          placeholder={site.contact.messagePlaceholder}
           value={values.message}
           onChange={(event) => setField("message", event.target.value)}
-          aria-invalid={Boolean(state.errors?.message)}
-          aria-describedby={state.errors?.message ? "message-error" : undefined}
           className={cn(controlClass, "resize-y")}
         />
       </Field>
-      <Button type="submit" disabled={pending} className="w-full sm:w-auto">
+      <Button type="submit" size="lg" disabled={pending} className="w-full sm:w-auto">
         {site.contact.submit}
       </Button>
     </form>
@@ -164,22 +158,25 @@ export default function ContactForm() {
 function Field({
   id,
   label,
+  hint,
   error,
   children,
 }: {
   id: string;
   label: string;
+  hint?: string;
   error?: string;
   children: ReactNode;
 }) {
   return (
     <div>
-      <label htmlFor={id} className="mb-2 block text-[14px] text-paper">
+      <label htmlFor={id} className="mb-2 flex items-baseline gap-2 text-[14px] text-soft">
         {label}
+        {hint ? <span className="text-[13px] text-mute">({hint})</span> : null}
       </label>
       {children}
       {error ? (
-        <p id={`${id}-error`} role="alert" className="mt-2 text-[14px] text-paper">
+        <p id={`${id}-error`} role="alert" className="mt-2 text-[14px] text-volt">
           {error}
         </p>
       ) : null}
